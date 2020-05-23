@@ -2,7 +2,8 @@ const timer = document.querySelector('.timer')
 
 let running = false
 let time = 0
-let startTime = 0
+let startTime
+let pauseTime
 let interval
 
 timer.onclick = () => {
@@ -13,12 +14,25 @@ timer.onclick = () => {
 }
 
 function resetTimer() {
+    running = false
     clearInterval(interval)
-    time = 0
-    timer.innerHTML = timeToString(time)
+    timer.innerHTML = timeToString(0)
+}
+
+function pauseTimer() {
+    running = false
+    clearInterval(interval)
+    pauseTime = new Date().getTime()
+}
+
+function goOnTimer() {
+    running = true
+    startTime += new Date().getTime() - pauseTime
+    interval = setInterval(onRunning, 1)
 }
 
 function startTimer() {
+    running = true
     startTime = new Date().getTime()
     interval = setInterval(onRunning, 1)
 }
